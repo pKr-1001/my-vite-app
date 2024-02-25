@@ -85,9 +85,9 @@ function App() {
     useEffect(() => {
       serverData();
     },[]);  
-  console.log(server)
+  // console.log(server)
 
-  console.log('test')
+  // console.log('test')
 
 
   const handleInput = (e) => {
