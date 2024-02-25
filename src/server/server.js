@@ -6,6 +6,7 @@ import path from 'path'
 
 dotenv.config();
 
+
 const app = express();
 app.use(cors());
 const PORT = 3000;
@@ -14,7 +15,7 @@ const DB_URL = process.env.DATABASE_URL;
 const RENBER_DB_URL = process.env.RENDER_DATABASE_URL;
 
 const pool = new pg.Pool({
-    connectionString : DB_URL
+    connectionString : DB_URL,
 })
 
 const pool2 = new pg.Pool({
@@ -42,6 +43,7 @@ app.get('/server', (req, res) => {
 })
 
 app.get('/api/data', async (req, res) => {
+    console.log('string URL '+ DB_URL)
     try {
         const response = await pool.query(`SELECT * FROM dogs`)
         res.json(response.rows)
