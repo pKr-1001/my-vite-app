@@ -26,18 +26,9 @@ const pool2 = new pg.Pool({
 
 console.log("Connecting to postgres using : ", DB_URL)
 
-// testing the server
-app.get('/server', (req, res) => {
-    pool2.query(`SELECT * FROM dogs`)
-    .then((data) => {
-        res.send(data.rows)
-        console.log(data.rows)
-    })
-    .catch((err) => {
-        console.error(err)
-    })
-})
 
+
+// local database
 app.get('/api/data', async (req, res) => {
     console.log('string URL '+ DB_URL)
     try {
@@ -50,7 +41,7 @@ app.get('/api/data', async (req, res) => {
 
 // get all the dogs
 app.get('/dogs', (req, res) => {
-    pool.query(`SELECT * FROM dogs`)
+    pool2.query(`SELECT * FROM dogs`)
     .then((data) => {
         res.send(data.rows)
         console.log(data.rows)
@@ -68,7 +59,7 @@ app.get('/dogs/:id', (req, res) => {
         res.sendStatus(400)
         return;
     }
-    pool.query(`SELECT * FROM dogs WHERE id = $1`, [id])
+    pool2.query(`SELECT * FROM dogs WHERE id = $1`, [id])
     .then((data) => {
         if (data.rows.length === 0) {
             console.log("Dog does not exist with id : ", id)
@@ -85,7 +76,7 @@ app.get('/dogs/:id', (req, res) => {
 // create a new dog
 app.post('/dogs', (req, res) => {
     const {image_url, type_id} = req.body
-    pool.query(`INSERT INTO dogs (image_url, type_id) VALUES ($1, $2)`, [image_url, type_id])
+    pool2.query(`INSERT INTO dogs (image_url, type_id) VALUES ($1, $2)`, [image_url, type_id])
     .then(() => {
         console.log("Dog created successfully")
         res.sendStatus(201)
@@ -98,7 +89,7 @@ app.post('/dogs', (req, res) => {
 
 // get all the type
 app.get('/type', (req, res) => {
-    pool.query(`SELECT * FROM dog_type`)
+    pool2.query(`SELECT * FROM dog_type`)
     .then((data) => {
         res.send(data.rows)
         console.log(data.rows)
@@ -116,7 +107,7 @@ app.get('/type/:id', (req, res) => {
         res.sendStatus(400)
         return;
     }
-    pool.query(`SELECT * FROM dog_type WHERE id = $1`, [id])
+    pool2.query(`SELECT * FROM dog_type WHERE id = $1`, [id])
     .then((data) => {
         if (data.rows.length === 0) {
             console.log("Dog does not exist with id : ", id)
@@ -133,7 +124,7 @@ app.get('/type/:id', (req, res) => {
 // create a new type
 app.post('/type', (req, res) => {
     const {type} = req.body;
-    pool.query(`INSERT INTO dog_type VALUES ($1)`, [type])
+    pool2.query(`INSERT INTO dog_type VALUES ($1)`, [type])
     .then(() => {
         console.log("Type created successfully")
         res.sendStatus(201)
@@ -153,7 +144,7 @@ app.patch('/dogs/:id', (req, res) => {
         res.sendStatus(400)
         return;
     }
-    pool.query(`UPDATE dogs SET 
+    pool2.query(`UPDATE dogs SET 
     image_url = COALESCE($1, image_url), 
     type_id = COALESCE($2, type_id) 
     WHERE id = $3`, [image_url, type_id, id])
@@ -179,7 +170,7 @@ app.delete('/dogs/:id', (req, res) => {
         res.sendStatus(400)
         return
     }
-    pool.query(`DELETE FROM dogs WHERE id = $1`, [id])
+    pool2.query(`DELETE FROM dogs WHERE id = $1`, [id])
     .then((data) => {
         if (data.rowCount === 0) {
             res.sendStatus(404)

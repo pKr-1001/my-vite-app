@@ -6,7 +6,7 @@ import GrabDogDB from './components/GrabDogDB';
 import GrabSpecific from './components/GrabSpecific';
 import GetBreeds from './components/GetBreeds';
 import { Button, Navbar, Container, Nav } from 'react-bootstrap';
-import { Routes, Route, Link, useNavigate, Outlet, useParams  } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 
 
@@ -20,10 +20,14 @@ function App() {
 
   const navigate = useNavigate();
 
+  // https://react-fullstack.onrender.com/
+
   const apiCall = async () => {
     try {
       const response = await axios.get('https://dog.ceo/api/breeds/image/random')
-      setExample(response.data)
+      // console.log(response.data.message)
+      let url = [response.data.message]
+      setExample([...example, url])
     } catch(error) {
       console.error(error)
     }
@@ -46,10 +50,10 @@ function App() {
     }
 
     // from local database
+    // https://react-fullstack.onrender.com/
     const localCall = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/dogs')
-        // console.log(response.data)
+        const response = await axios.get('https://react-fullstack.onrender.com/dogs')
         setLocal(response.data)
       } catch(error) {
         console.error(error)
@@ -60,9 +64,10 @@ function App() {
     },[]);
 
     // from local database
+    // https://react-fullstack.onrender.com/
     const localBreed = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/type`)
+        const response = await axios.get(`https://react-fullstack.onrender.com/type`)
         // console.log(response.data)
         setLocalBreeds(response.data)
       } catch(error) {
@@ -74,6 +79,7 @@ function App() {
     },[]);
 
     // req to external database
+    // https://react-fullstack.onrender.com/
    const serverData = async () => {
       try {
         const reponse = await axios.get('http://localhost:3000/api/data') // /api/data
@@ -85,9 +91,6 @@ function App() {
     useEffect(() => {
       serverData();
     },[]);  
-  // console.log(server)
-
-  // console.log('test')
 
 
   const handleInput = (e) => {
@@ -106,17 +109,7 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
-      {/* <div className='btn-container'>
-       <button className='btn' onClick={apiCall}>Grab random dog</button>
-        <form className='form' onSubmit={handleInput}>
-          <input placeholder='Type breed only' type='text' name='breed'></input>
-          <button type='submit'>Submit</button>
-        </form>
-      </div> */}
-    {/* <div className='container'>
-          </div> */}
 
-        {/* <GetBreeds localBreeds={localBreeds}/> */}
         <Routes>
           <Route path='/' element = {
             <>
