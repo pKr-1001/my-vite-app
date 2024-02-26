@@ -7,10 +7,11 @@ dotenv.config();
 
 const app = express();
 app.use(cors());
-const PORT = 3000;
+const PORT = process.env.PORT || 3001;
 
 const DB_URL = process.env.DATABASE_URL;
 const RENBER_DB_URL = process.env.RENDER_DATABASE_URL;
+app.use(express.json())
 
 const pool = new pg.Pool({
     connectionString : DB_URL
@@ -23,9 +24,9 @@ const pool2 = new pg.Pool({
     }
 })
 
-
 console.log("Connecting to postgres using : ", DB_URL)
 
+// testing the server
 app.get('/server', (req, res) => {
     pool2.query(`SELECT * FROM dogs`)
     .then((data) => {
@@ -59,6 +60,7 @@ app.get('/dogs', (req, res) => {
     })
 })
 
+// get a single dog
 app.get('/dogs/:id', (req, res) => {
     const id = Number.parseInt(req.params.id)
 
@@ -135,6 +137,55 @@ app.post('/type', (req, res) => {
     .then(() => {
         console.log("Type created successfully")
         res.sendStatus(201)
+    })
+    .catch((err) => {
+        console.error(err)
+        res.sendStatus(500)
+    })
+})
+
+// update a dog
+app.patch('/dogs/:id', (req, res) => {
+    const id = Number.parseInt(req.params.id)
+    const {image_url, type_id} = req.body
+
+    if (Number.isNaN(id)) {
+        res.sendStatus(400)
+        return;
+    }
+    pool.query(`UPDATE dogs SET 
+    image_url = COALESCE($1, image_url), 
+    type_id = COALESCE($2, type_id) 
+    WHERE id = $3`, [image_url, type_id, id])
+    .then((data) => {
+        if (data.rowCount === 0) {
+            res.sendStatus(404)
+            return;
+        }
+        res.json(data.rows[0])
+        res.sendStatus(200)
+    })
+    .catch((err) => {
+        console.error(err)
+        res.sendStatus(500)
+    })
+})
+
+// delete a dog
+app.delete('/dogs/:id', (req, res) => {
+    const id = Number.parseInt(req.params.id)
+
+    if (Number.isNaN(id)) {
+        res.sendStatus(400)
+        return
+    }
+    pool.query(`DELETE FROM dogs WHERE id = $1`, [id])
+    .then((data) => {
+        if (data.rowCount === 0) {
+            res.sendStatus(404)
+            return;
+        }
+        res.sendStatus(204)
     })
     .catch((err) => {
         console.error(err)
