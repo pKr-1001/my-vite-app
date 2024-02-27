@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3001;
 const DB_URL = process.env.DATABASE_URL;
 const RENBER_DB_URL = process.env.RENDER_DATABASE_URL;
 app.use(express.json())
+app.use(express.static('dist'))
 
 const pool = new pg.Pool({
     connectionString : DB_URL
