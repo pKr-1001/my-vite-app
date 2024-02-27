@@ -80,17 +80,17 @@ function App() {
 
     // req to external database
     // https://react-fullstack.onrender.com/
-   const serverData = async () => {
-      try {
-        const reponse = await axios.get('http://localhost:3000/api/data') // /api/data
-        setServer(reponse.data)
-      } catch(error) {
-        console.error(error)
-      }
-    }
-    useEffect(() => {
-      serverData();
-    },[]);  
+  //  const serverData = async () => {
+  //     try {
+  //       const reponse = await axios.get('http://localhost:3000/api/data') // /api/data
+  //       setServer(reponse.data)
+  //     } catch(error) {
+  //       console.error(error)
+  //     }
+  //   }
+  //   useEffect(() => {
+  //     serverData();
+  //   },[]);  
 
 
   const handleInput = (e) => {
