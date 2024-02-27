@@ -99,7 +99,7 @@ function App() {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
       const response = await axios.post('https://react-fullstack.onrender.com/dogs/new', add)
       console.log(response)
@@ -109,7 +109,7 @@ function App() {
   }
 }
 
-  console.log(add)
+  // console.log(add)
   
 
 
