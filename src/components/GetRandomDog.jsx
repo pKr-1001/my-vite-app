@@ -1,14 +1,15 @@
 
 const GetRandomDog = ({ example }) => {
     // maximum of 3 images
-    if (example.length >= 4) {
-        example = example.splice(0, 1)
-    }
-    const limitExample = example.slice(0, 3)
+    // if (example.length >= 4) {
+    //     example = example.splice(0, 1)
+    // }
+    let imagesToShow = example.slice(-3)
+
     return(
         <div className='randomDog'>
             {
-                example.map((image, index) => {
+                imagesToShow.map((image, index) => {
                     return(
                         <img src={`${image}`} key={index} style={{width: '200px', height: '150px'}}/>
                     )
