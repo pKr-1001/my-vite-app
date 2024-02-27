@@ -11,7 +11,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 
 
 function App() {
-  const [example, setExample] = useState([])
+  const [example, setExample] = useState(['https://images.dog.ceo/breeds/clumber/n02101556_7986.jpg','https://images.dog.ceo/breeds/maltese/n02085936_296.jpg','https://images.dog.ceo/breeds/collie-border/n02106166_4450.jpg'])
   const [input, setInput] = useState('')
   const [single, setSigle] = useState([])
   const [server, setServer] = useState([])
