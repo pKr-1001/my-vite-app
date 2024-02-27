@@ -14,14 +14,12 @@ function App() {
   const [example, setExample] = useState(['https://images.dog.ceo/breeds/clumber/n02101556_7986.jpg','https://images.dog.ceo/breeds/maltese/n02085936_296.jpg','https://images.dog.ceo/breeds/collie-border/n02106166_4450.jpg'])
   const [input, setInput] = useState('')
   const [single, setSigle] = useState([])
-  const [server, setServer] = useState([])
   const [local, setLocal] = useState([])
   const [localBreeds, setLocalBreeds] = useState([])
 
   const navigate = useNavigate();
 
-  // https://react-fullstack.onrender.com/
-
+  // api call to get random dog
   const apiCall = async () => {
     try {
       const response = await axios.get('https://dog.ceo/api/breeds/image/random')
@@ -38,7 +36,7 @@ function App() {
       apiCall();
     },[]);
 
-
+    // api call to get specific breed
   const apiCallSingle = async () => {
     try {
       const response = await axios.get(`https://dog.ceo/api/breed/${input}/images/random`)
@@ -47,10 +45,9 @@ function App() {
     } catch(error) {
       console.error(error)
     }
-    }
+  }
 
-    // from local database
-    // https://react-fullstack.onrender.com/
+    // from database to get all dogs
     const localCall = async () => {
       try {
         const response = await axios.get('https://react-fullstack.onrender.com/dogs')
@@ -63,8 +60,7 @@ function App() {
       localCall();
     },[]);
 
-    // from local database
-    // https://react-fullstack.onrender.com/
+    // from database to get all breeds
     const localBreed = async () => {
       try {
         const response = await axios.get(`https://react-fullstack.onrender.com/type`)
@@ -78,26 +74,22 @@ function App() {
       localBreed();
     },[]);
 
-    // req to external database
-    // https://react-fullstack.onrender.com/
-  //  const serverData = async () => {
-  //     try {
-  //       const reponse = await axios.get('http://localhost:3000/api/data') // /api/data
-  //       setServer(reponse.data)
-  //     } catch(error) {
-  //       console.error(error)
-  //     }
-  //   }
-  //   useEffect(() => {
-  //     serverData();
-  //   },[]);  
 
 
   const handleInput = (e) => {
     e.preventDefault();
-    setInput(e.target.elements.breed.value)
     apiCallSingle();
   }
+
+  const handleChange = (e) => {
+    setInput(e.target.value)
+  }
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    console.log(e.currentTarget.value)
+  }
+
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
@@ -110,23 +102,25 @@ function App() {
         </Container>
       </Navbar>
 
+      <div >
         <Routes>
           <Route path='/' element = {
             <>
             <div className='btn-container'>
               <button className='btn' onClick={apiCall}>Grab random dog</button>
                 <form className='form' onSubmit={handleInput}>
-                  <input placeholder='Type breed only' type='text' name='breed'></input>
-                  <button type='submit'>Submit</button>
+                <input placeholder='Type breed only' type='text' name='breed' onChange={handleChange} value={input}></input>
+                <button type='submit'>Submit</button> 
               </form>
             </div>
             <GetRandomDog example={example}/>
-            <GrabDogDB local={local}/>
+            <GrabDogDB local={local} handleClick={handleClick}/>
             <GrabSpecific single={single}/>
             </>
           } />
           <Route path='/breeds' element={<GetBreeds localBreeds={localBreeds}></GetBreeds>}/>
         </Routes>
+          </div>
     </>
   )
 }

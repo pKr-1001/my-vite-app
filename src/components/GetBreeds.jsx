@@ -5,24 +5,17 @@ const GetBreeds = ({ localBreeds }) => {
     return (
         <div>
         <h1>Get Breeds</h1>
-
         {
             localBreeds.map((breed, index) => {
                 return (
-
                     <div key={index}>
-                
-                    <h2>{breed.id}: {breed.type}</h2>
-                    {/* <h2>{breed.type}</h2> */}
-                
+                    <h2>{breed.id}: {breed.type}</h2>                
                 </div>
-            )
+                )
             })
         }
         <Outlet></Outlet>
         </div>
     )}
-
-
 
 export default GetBreeds;
