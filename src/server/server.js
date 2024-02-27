@@ -75,7 +75,7 @@ app.get('/dogs/:id', (req, res) => {
 })
 
 // create a new dog
-app.post('/dogs', (req, res) => {
+app.post('/dogs/new', (req, res) => {
     const {image_url, type_id} = req.body
     pool2.query(`INSERT INTO dogs (image_url, type_id) VALUES ($1, $2)`, [image_url, type_id])
     .then(() => {

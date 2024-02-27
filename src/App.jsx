@@ -7,7 +7,7 @@ import GrabSpecific from './components/GrabSpecific';
 import GetBreeds from './components/GetBreeds';
 import { Button, Navbar, Container, Nav } from 'react-bootstrap';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-
+import AddDog from './components/AddDog';
 
 
 function App() {
@@ -16,6 +16,7 @@ function App() {
   const [single, setSigle] = useState([])
   const [local, setLocal] = useState([])
   const [localBreeds, setLocalBreeds] = useState([])
+  const [add, setAdd] = useState({})
 
   const navigate = useNavigate();
 
@@ -30,7 +31,6 @@ function App() {
       console.error(error)
     }
   }
-    // console.log(example)
 
     useEffect(() => {
       apiCall();
@@ -74,8 +74,6 @@ function App() {
       localBreed();
     },[]);
 
-
-
   const handleInput = (e) => {
     e.preventDefault();
     apiCallSingle();
@@ -90,6 +88,31 @@ function App() {
     console.log(e.currentTarget.value)
   }
 
+
+  const handleAddChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setAdd({
+      ...add,
+      [name]: value
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('https://react-fullstack.onrender.com/dogs/new', add)
+      console.log(response)
+
+    } catch(error) {
+      console.error(error)
+  }
+}
+
+  console.log(add)
+  
+
+
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
@@ -98,6 +121,7 @@ function App() {
           <Nav className="me-auto">
             <Nav.Link onClick={() => {navigate('/')}}>Home</Nav.Link>
             <Nav.Link onClick={() => {navigate('/breeds')}}>Breeds</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/add')}}>Add</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -119,6 +143,7 @@ function App() {
             </>
           } />
           <Route path='/breeds' element={<GetBreeds localBreeds={localBreeds}></GetBreeds>}/>
+          <Route path='/add' element={<AddDog add={add} handleSubmit={handleSubmit} handleAddChange={handleAddChange}></AddDog>}/>
         </Routes>
           </div>
     </>
