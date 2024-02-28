@@ -7,7 +7,8 @@ https://dog.ceo/dog-api/
 
 ## Features
 
-As of right now, only Add option to the database is available.
+As of right now, - Add option to the database
+                 - Random image from API
 
 ## Installation
 
