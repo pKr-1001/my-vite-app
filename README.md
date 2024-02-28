@@ -9,6 +9,7 @@ https://dog.ceo/dog-api/
 
 As of right now, - Add option to the database
                  - Random image from API
+                 - Specific breed image from API
 
 ## Installation
 
