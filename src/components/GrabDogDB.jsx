@@ -7,7 +7,7 @@ const GrabDogDB = ({ local, handleClick }) => {
                 {local.map((dog, index) => {
                     return (
                         <div key={index} style={{width: '30%', padding: '5px'}}>
-                        <img src={dog.image_url} alt={dog.breed} style={{width: '100%', height: '150px'}}/>
+                        <img onClick={() => handleClick(dog)} src={dog.image_url} alt={dog.breed} style={{width: '100%', height: '150px'}}/>
                         <p>{dog.breed}</p>
                         </div>
                     )
