@@ -8,7 +8,7 @@ import GetBreeds from './components/GetBreeds';
 import { Button, Navbar, Container, Nav } from 'react-bootstrap';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import AddDog from './components/AddDog';
-
+import GrabSelected from './components/GrabSelected';
 
 function App() {
   const [example, setExample] = useState(['https://images.dog.ceo/breeds/clumber/n02101556_7986.jpg','https://images.dog.ceo/breeds/maltese/n02085936_296.jpg','https://images.dog.ceo/breeds/collie-border/n02106166_4450.jpg'])
@@ -17,6 +17,7 @@ function App() {
   const [local, setLocal] = useState([])
   const [localBreeds, setLocalBreeds] = useState([])
   const [add, setAdd] = useState({})
+  const [selected, setSelected] = useState(null)
 
   const navigate = useNavigate();
 
@@ -83,12 +84,18 @@ function App() {
     setInput(e.target.value)
   }
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    console.log(e.currentTarget.value)
+  const handleClick = (dog) => {
+    let test = dog
+    setSelected(test)
+  }
+
+  const resetSelected = () => {
+    setSelected(null)
   }
 
 
+  const showSelected = selected ? <GrabSelected selected={selected} resetSelected={resetSelected}/> : null
+  
   const handleAddChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -140,6 +147,7 @@ function App() {
             <GetRandomDog example={example}/>
             <GrabDogDB local={local} handleClick={handleClick}/>
             <GrabSpecific single={single}/>
+              {showSelected}
             </>
           } />
           <Route path='/breeds' element={<GetBreeds localBreeds={localBreeds}></GetBreeds>}/>
