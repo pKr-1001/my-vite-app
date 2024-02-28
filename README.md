@@ -19,8 +19,8 @@ npm install
 ```
 
 
-## To run locally
+## To run local
 In package.json file, edit start script to
 ```
-  "start": "vite"
+"start": "vite"
 ```
