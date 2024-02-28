@@ -16,3 +16,11 @@ To install the dependencies, run :
 
 ```
 npm install
+```
+
+
+## To run locally
+In package.json file, edit start script to
+```
+  "start": "vite"
+```
