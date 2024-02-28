@@ -14,4 +14,5 @@ As of right now, only Add option to the database is available.
 
 To install the dependencies, run :
 
+```
 npm install
