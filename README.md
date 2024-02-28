@@ -20,7 +20,15 @@ npm install
 
 
 ## To run local
-In package.json file, edit start script to
+In package.json file, node server.js and App.js and edit start script to
 ```
 "start": "vite"
+```
+For App.js
+```
+npm start
+```
+For server.js
+```
+node server.js
 ```
